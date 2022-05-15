@@ -10,6 +10,8 @@
     <th:block th:each="msg : ${messages}">
         <h1 th:text="${msg}"></h1>
     </th:block>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
 </div>
 </body>
 </html>
