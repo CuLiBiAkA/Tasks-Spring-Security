@@ -1,5 +1,6 @@
 package web.service;
 
+import com.mysql.cj.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,9 @@ import web.dao.RoleDao;
 import web.dao.UserDao;
 import web.model.Role;
 import web.model.User;
+
+import javax.persistence.EntityManager;
+import java.sql.PreparedStatement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

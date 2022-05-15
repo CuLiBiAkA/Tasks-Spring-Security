@@ -5,12 +5,14 @@ import org.springframework.stereotype.Component;
 import web.model.Role;
 import web.model.User;
 import web.service.UserService;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class CreateFistUserToBD {
+public class ConfigRootForDataBase {
 
     @Autowired
     private UserService userService;

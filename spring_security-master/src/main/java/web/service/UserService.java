@@ -23,4 +23,5 @@ public interface UserService extends UserDetailsService {
     String getPasswordCoder(String password);
 
     void saveRole(Role role);
+
 }
