@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.model.User;
 import web.service.UserService;
+import java.util.Locale;
 
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
-
 
     @Autowired
     private UserService userService;
@@ -27,10 +27,10 @@ public class AdminController {
     }
 
     @PostMapping("/")
-    public String createUser(@ModelAttribute("user") User user, boolean flag) {
+    public String createUser(@ModelAttribute("user") User user, boolean flagRoleUser) {
         var sameNameUserInDB = userService.getListUsers().stream().anyMatch(user1 -> user1.getUsername().equals(user.getUsername()));
         if (!sameNameUserInDB) {
-            userService.setUserRole(user, flag);
+            userService.setUserRole(user, flagRoleUser);
             user.setPassword(userService.getPasswordEncoder(user.getPassword()));
             userService.saveUser(user);
             return "redirect:/admin";
@@ -55,21 +55,21 @@ public class AdminController {
     public String showUser(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
-        model.addAttribute("role", user.getRoles().stream().findFirst().get().getName());
+        model.addAttribute("role", user.getRoles().stream().findFirst().get().getName().toLowerCase(Locale.ROOT).replace("role_", ""));
         return "getUser";
     }
 
     @GetMapping("/{id}/editUser")
     public String editUser(Model model, @PathVariable("id") Long id) {
-        boolean flag = false;
-        model.addAttribute("flag", flag);
+        boolean flagRoleUser = false;
+        model.addAttribute("flag", flagRoleUser);
         model.addAttribute("user", userService.getUserById(id));
         return "editUser";
     }
 
     @PostMapping("/{id}")
-    public String updateUserById(@ModelAttribute("user") User user, boolean flag) {
-        userService.setUserRole(user, flag);
+    public String updateUserById(@ModelAttribute("user") User user, boolean flagRoleUser) {
+        userService.setUserRole(user, flagRoleUser);
         user.setPassword(userService.getPasswordEncoder(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin";

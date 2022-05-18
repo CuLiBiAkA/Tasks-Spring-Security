@@ -23,6 +23,4 @@ public interface UserService extends UserDetailsService {
     String getPasswordEncoder(String password);
 
     void saveRole(Role role);
-
-    void createFistUserAdminWhenStartApplication();
 }

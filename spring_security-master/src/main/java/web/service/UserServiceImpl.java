@@ -71,14 +71,6 @@ public class UserServiceImpl implements UserService {
         userDao.saveRole(role.getId(), role.getName());
     }
 
-    @Override
-    public void createFistUserAdminWhenStartApplication() {
-        Set<Role> roleSet = new HashSet<>();
-        roleSet.add(new Role(1L, "ROLE_ADMIN"));
-        User user = new User(1L, "ADMIN", "ADMIN", 9, "CMOSHA", roleSet);
-        user.setPassword(getPasswordEncoder(user.getPassword()));
-        saveUser(user);
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
