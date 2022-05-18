@@ -1,4 +1,4 @@
-package web.config.fist_start_applicathion;
+package web.config.dataBaseUtils;
 
 import org.springframework.stereotype.Component;
 import web.model.Role;
@@ -10,11 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class ConfigRoleForDataBase {
+public class InitDataBaseHelper {
 
     private final UserService userService;
 
-    public ConfigRoleForDataBase(UserService userService) {
+    public InitDataBaseHelper(UserService userService) {
         this.userService = userService;
     }
 
