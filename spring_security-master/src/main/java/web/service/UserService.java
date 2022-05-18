@@ -18,10 +18,11 @@ public interface UserService extends UserDetailsService {
 
     User findUserByName(String name);
 
-    void setUserRoot(User user, boolean flag);
+    void setUserRole(User user, boolean flag);
 
-    String getPasswordCoder(String password);
+    String getPasswordEncoder(String password);
 
     void saveRole(Role role);
 
+    void createFistUserAdminWhenStartApplication();
 }

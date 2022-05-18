@@ -3,55 +3,63 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import web.model.User;
 import web.service.UserService;
 
+@RequestMapping("/admin")
 @Controller
 public class AdminController {
+
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/admin/new")
-    public String newUser(Model model, User user) {
-        boolean flag = false;
-        model.addAttribute("user", user);
-        model.addAttribute("flag", flag);
+    @GetMapping("/new")
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        boolean flagUserRole = false;
+        model.addAttribute("flag", flagUserRole);
         return "newUser";
     }
 
-    @PostMapping()
+    @PostMapping("/")
     public String createUser(@ModelAttribute("user") User user, boolean flag) {
-        userService.setUserRoot(user, flag);
-        user.setPassword(userService.getPasswordCoder(user.getPassword()));
-        userService.saveUser(user);
-        return "redirect:/admin";
+        var sameNameUserInDB = userService.getListUsers().stream().anyMatch(user1 -> user1.getUsername().equals(user.getUsername()));
+        if (!sameNameUserInDB) {
+            userService.setUserRole(user, flag);
+            user.setPassword(userService.getPasswordEncoder(user.getPassword()));
+            userService.saveUser(user);
+            return "redirect:/admin";
+        } else {
+            return "redirect:/admin/new";
+        }
     }
 
-    @DeleteMapping("/admin/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/admin")
+    @GetMapping()
     public String getListUsers(Model model) {
         model.addAttribute("users", userService.getListUsers());
         return "admin";
     }
 
-    @GetMapping("/admin/{id}")
+    @GetMapping("/{id}")
     public String showUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("role", user.getRoles().stream().findFirst().get().getName());
         return "getUser";
     }
 
-    @GetMapping("/admin/{id}/editUser")
+    @GetMapping("/{id}/editUser")
     public String editUser(Model model, @PathVariable("id") Long id) {
         boolean flag = false;
         model.addAttribute("flag", flag);
@@ -59,9 +67,10 @@ public class AdminController {
         return "editUser";
     }
 
-    @PostMapping("/admin/{id}")
+    @PostMapping("/{id}")
     public String updateUserById(@ModelAttribute("user") User user, boolean flag) {
-        userService.setUserRoot(user, flag);
+        userService.setUserRole(user, flag);
+        user.setPassword(userService.getPasswordEncoder(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin";
     }

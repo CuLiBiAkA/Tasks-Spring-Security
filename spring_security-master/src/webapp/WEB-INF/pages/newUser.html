@@ -3,24 +3,36 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>NewUser</title>
+    <title>Новый Фраер</title>
 </head>
 <body>
-
-<form th:method="POST" th:action="@{/}" th:object="${user}">
-    <label for="name">Enter name: </label>
-    <input th:type="text" th:field="*{name}" id="name"/>
-    <label for="password">Enter password: </label>
-    <input th:type="text" th:field="*{password}" id="password"/>
-    <label for="size">Enter size: </label>
-    <input th:type="text" th:field="*{penisSize}" id="size"/>
-    <label for="drove">Enter drove: </label>
-    <input th:type="text" th:field="*{drove}" id="drove"/>
+<form th:action="@{/admin}">
+    <input th:type="submit" value="Включить заднюю"/>
+</form>
+<br/>
+<form th:method="POST" th:action="@{/admin/}" th:object="${user}">
+    <label for="name">Введи имя: </label>
+    <input th:type="text" th:required="name" minlength="3" th:autocomplete="name" th:field="*{name}" id="name"
+           placeholder="Минимум 3 симола"/>
+    </div>
     <br/>
-    <label th:for="flag">ROOT</label>
-  <input type="checkbox"  name="flag" th:checked="${flag}"/>
+    <label for="password">Введи пароль: </label>
+    <input th:type="password" th:required="password" minlength="3" th:field="*{password}" id="password"
+           placeholder="Минимум 3 симола"/>
     <br/>
-    <input th:type="submit" value="Create"/>
+    <label for="size">Размер пиструна: </label>
+    <input th:type="range" th:value="1" th:min="0" th:max="10" th:step="1" th:field="*{penisSize}" id="size">
+    <br/>
+    <label for="drove">Кликуха: </label>
+    <input th:type="text" value="Подшкон" th:field="*{drove}" id="drove"/>
+    <br/>
+    <label th:for="flag">ADMIN</label>
+    <input th:type="radio" name="flag" th:value="${flag.TRUE}"/>
+    <br/>
+    <label th:for="flag">ФУФЛЫЖНИК</label>
+    <input th:type="radio" name="flag" th:value="${flag.FALSE}" checked/>
+    <br/>
+    <input th:type="submit" value="Создать"/>
 </form>
 </body>
 </html>

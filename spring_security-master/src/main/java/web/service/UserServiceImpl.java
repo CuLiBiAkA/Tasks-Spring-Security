@@ -1,6 +1,5 @@
 package web.service;
 
-import com.mysql.cj.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,13 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import web.dao.RoleDao;
 import web.dao.UserDao;
 import web.model.Role;
 import web.model.User;
-
-import javax.persistence.EntityManager;
-import java.sql.PreparedStatement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,11 +23,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Autowired
-    private RoleDao roleDao;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     @Override
     public List<User> getListUsers() {
@@ -51,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Long id) {
-        userDao.deleteById(id);
+        userDao.removeUsersById(id);
     }
 
     @Override
@@ -60,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setUserRoot(User user, boolean flag) {
+    public void setUserRole(User user, boolean flag) {
         Set<Role> roleSet = new HashSet<>();
         if (flag) {
             roleSet.add(new Role(1L, "ROLE_ADMIN"));
@@ -71,13 +62,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getPasswordCoder(String password) {
+    public String getPasswordEncoder(String password) {
         return passwordEncoder.encode(password);
     }
 
     @Override
     public void saveRole(Role role) {
-        roleDao.save(role);
+        userDao.saveRole(role.getId(), role.getName());
+    }
+
+    @Override
+    public void createFistUserAdminWhenStartApplication() {
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(new Role(1L, "ROLE_ADMIN"));
+        User user = new User(1L, "ADMIN", "ADMIN", 9, "CMOSHA", roleSet);
+        user.setPassword(getPasswordEncoder(user.getPassword()));
+        saveUser(user);
     }
 
     @Override

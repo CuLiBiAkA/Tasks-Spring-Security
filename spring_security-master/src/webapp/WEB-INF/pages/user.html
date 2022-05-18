@@ -5,11 +5,18 @@
     <title>User</title>
 </head>
 <body>
-<p th:text="${user.getName()}">VALUE</p>
-<p th:text="${user.getId()}">VALUE</p>
-<p th:text="${user.getPenisSize()}">VALUE</p>
-<p th:text="${user.getDrove()}">VALUE</p>
+<label for="role">Роль: </label>
+<a th:text="${role}" id="role">VALUE</a><br/>
 <br/>
-<a th:href="@{/logout}">Logout</a>
+<label for="name">Имя: </label>
+<a th:text="${user.getName()}" id="name">VALUE</a><br/>
+<label for="size">Размер писюна: </label>
+<a th:text="${user.getPenisSize()}" id="size">VALUE</a><br/>
+<label for="drove">Кликуха: </label>
+<a th:text="${user.getDrove()}" id="drove">VALUE</a><br/>
+<br/>
+<form th:action="@{/logout}">
+    <input th:type="submit" value="Выход из профиля"/>
+</form>
 </body>
 </html>
