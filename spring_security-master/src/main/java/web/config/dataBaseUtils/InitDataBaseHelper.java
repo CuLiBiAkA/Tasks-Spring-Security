@@ -18,12 +18,15 @@ public class InitDataBaseHelper {
         this.userService = userService;
     }
 
+    final static String roleAdmin = "ROLE_ADMIN";
+    final static String roleUser = "ROLE_USER";
+
     @PostConstruct
     private void postConstruct() {
-        userService.saveRole(new Role(1L, "ROLE_ADMIN"));
-        userService.saveRole(new Role(2L, "ROLE_USER"));
+        userService.saveRole(new Role(1L, roleAdmin));
+        userService.saveRole(new Role(2L, roleUser));
         Set<Role> roleSet = new HashSet<>();
-        roleSet.add(new Role(1L, "ROLE_ADMIN"));
+        roleSet.add(new Role(1L, roleAdmin));
         User user = new User(1L, "ADMIN", "ADMIN", 9, "CMOSHA", roleSet);
         user.setPassword(userService.getPasswordEncoder(user.getPassword()));
         userService.saveUser(user);

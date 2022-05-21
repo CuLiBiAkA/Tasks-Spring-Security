@@ -19,6 +19,9 @@ import java.util.Set;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    final static String roleAdmin = "ROLE_ADMIN";
+    final static String roleUser = "ROLE_USER";
+
     @Autowired
     private UserDao userDao;
 
@@ -51,12 +54,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setUserRole(User user, boolean flag) {
+    public void setUserRole(User user, boolean flagSetRoleUser) {
         Set<Role> roleSet = new HashSet<>();
-        if (flag) {
-            roleSet.add(new Role(1L, "ROLE_ADMIN"));
+        if (flagSetRoleUser) {
+            roleSet.add(new Role(1L, roleAdmin));
         } else {
-            roleSet.add(new Role(2L, "ROLE_USER"));
+            roleSet.add(new Role(2L, roleUser));
         }
         user.setRoles(roleSet);
     }

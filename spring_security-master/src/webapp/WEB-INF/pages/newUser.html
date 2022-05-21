@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html"
+      lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>Новый Фраер</title>
+
+<!--    <script type="text/javascript">-->
+<!--        function validateUserName(){-->
+<!--          var userName = document.getElementById('name').value;-->
+<!--          if(userName.length<10){-->
+<!--              alert(userName +" Соси бибу и введи минимум 10 символов ")-->
+<!--              return false;-->
+<!--          }-->
+<!--          else {-->
+<!--              alert(userName +" чепух сохранен")-->
+<!--              return true;-->
+<!--          }-->
+<!--        }-->
+
+
+<!--    th:onsubmit="return validateUserName()"-->
+<!--    </script>-->
+
 </head>
 <body>
 <form th:action="@{/admin}">
@@ -12,9 +31,9 @@
 <br/>
 <form th:method="POST" th:action="@{/admin/}" th:object="${user}">
     <label for="name">Введи имя: </label>
-    <input th:type="text" th:required="name" minlength="3" th:autocomplete="name" th:field="*{name}" id="name"
+    <input th:type="text" th:field="*{name}" id="name"
            placeholder="Минимум 3 симола"/>
-    </div>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка имени</span>
     <br/>
     <label for="password">Введи пароль: </label>
     <input th:type="password" th:required="password" minlength="3" th:field="*{password}" id="password"
@@ -27,10 +46,10 @@
     <input th:type="text" value="Подшкон" th:field="*{drove}" id="drove"/>
     <br/>
     <label th:for="flag">ADMIN</label>
-    <input th:type="radio" name="flag" th:value="${flag.TRUE}"/>
+    <input type="radio" name="flag"  th:value="${flag.TRUE}"/>
     <br/>
-    <label th:for="flag">ФУФЛЫЖНИК</label>
-    <input th:type="radio" name="flag" th:value="${flag.FALSE}" checked/>
+    <label th:for="flag.">ФУФЛЫЖНИК</label>
+    <input type="radio" name="flag" th:value="${flag.FALSE}" checked/>
     <br/>
     <input th:type="submit" value="Создать"/>
 </form>

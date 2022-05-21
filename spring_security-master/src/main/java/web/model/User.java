@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import web.config.myValidation.MyValidationIdentityName;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,9 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -26,13 +32,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_table")
-public class User implements UserDetails {
+public class User implements UserDetails, Annotation {
+
+    @Transient
+    private static String roleNull = "отвалилась ебеаня база или роль проебалась, должен кинуть эксепшн, но кину эту строку и я хз кто ты по жизни";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @MyValidationIdentityName(message = "Моя ебана валидация отработала")
     @Column(name = "name")
     private String name;
 
@@ -85,6 +95,15 @@ public class User implements UserDetails {
         return true;
     }
 
+    public String getUserRoles() {
+        if (roles != null) {
+            return  roles.stream().map(p->p.getName().toLowerCase(Locale.ROOT).replace("role_", "")).collect(Collectors.joining(", "));
+        }
+        else {
+            return roleNull;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,5 +115,10 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, password, penisSize, drove, roles);
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+        return MyValidationIdentityName.class;
     }
 }

@@ -22,10 +22,10 @@
     <input th:type="text" th:field="*{drove}" id="drove"/>
     <br/>
     <label th:for="flag">ADMIN</label>
-    <input th:type="radio" name="flag" th:value="${flag.TRUE}"/>
+    <input type="radio" name="flag" th:checked="${flag} ? 'checked'" th:value="${flag.TRUE}"/>
     <br/>
-    <label th:for="flag">ФУФЛЫЖНИК</label>
-    <input th:type="radio" name="flag" th:value="${flag.FALSE}" checked/>
+    <label th:for="flag.">ФУФЛЫЖНИК</label>
+    <input type="radio" name="flag" th:checked="${!flag} ? 'checked'" th:value="${flag.FALSE}"/>
     <br/>
     <input th:type="submit" value="Изменить"/>
 </form>

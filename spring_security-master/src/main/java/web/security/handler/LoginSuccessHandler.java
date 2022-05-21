@@ -12,15 +12,18 @@ import java.util.Set;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    final static String roleAdmin = "ROLE_ADMIN";
+    final static String roleUser = "ROLE_USER";
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ROLE_ADMIN")) {
+        if (roles.contains(roleAdmin)) {
             httpServletResponse.sendRedirect("/admin");
         }
-        if (roles.contains("ROLE_USER")) {
+        if (roles.contains(roleUser)) {
             httpServletResponse.sendRedirect("/user");
         }
     }
