@@ -1,11 +1,13 @@
 package web.dao;
 
+import web.model.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import web.model.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserDao extends CrudRepository<User, Long> {
     User findUserById(Long id);
 

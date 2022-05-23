@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import web.config.myValidation.MyValidationIdentityName;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +17,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Objects;
@@ -32,7 +29,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_table")
-public class User implements UserDetails, Annotation {
+public class User implements UserDetails {
 
     @Transient
     private static String roleNull = "отвалилась ебеаня база или роль проебалась, должен кинуть эксепшн, но кину эту строку и я хз кто ты по жизни";
@@ -42,7 +39,6 @@ public class User implements UserDetails, Annotation {
     @Column(name = "id")
     private Long id;
 
-    @MyValidationIdentityName(message = "Моя ебана валидация отработала")
     @Column(name = "name")
     private String name;
 
@@ -115,10 +111,5 @@ public class User implements UserDetails, Annotation {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, password, penisSize, drove, roles);
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return MyValidationIdentityName.class;
     }
 }

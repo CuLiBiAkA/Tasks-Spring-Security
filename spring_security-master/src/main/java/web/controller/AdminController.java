@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.model.User;
 import web.service.UserService;
-import javax.validation.Valid;
+
 import java.util.List;
 
 @RequestMapping("/admin")
@@ -30,7 +30,7 @@ public class AdminController {
     }
 
     @PostMapping("/")
-    public String createUser(@Valid @ModelAttribute("user") User user, BindingResult resolver, @ModelAttribute("flag") boolean flagSetRoleUser) {
+    public String createUser(@ModelAttribute("user") User user, BindingResult resolver, @ModelAttribute("flag") boolean flagSetRoleUser) {
        if(resolver.hasErrors()){
            List<ObjectError> errorList = resolver.getAllErrors();
             for(ObjectError temp: errorList)

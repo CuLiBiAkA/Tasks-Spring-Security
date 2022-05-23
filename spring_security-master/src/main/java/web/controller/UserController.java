@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import web.model.User;
 import web.service.UserService;
-
 import java.util.Locale;
 
 @Controller
