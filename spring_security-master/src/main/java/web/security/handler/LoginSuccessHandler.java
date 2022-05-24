@@ -8,23 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
+import static web.config.MyConstantString.*;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-
-    final static String roleAdmin = "ROLE_ADMIN";
-    final static String roleUser = "ROLE_USER";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains(roleAdmin)) {
-            httpServletResponse.sendRedirect("/admin");
+        if (roles.contains(ROLE_ADMIN)) {
+            httpServletResponse.sendRedirect(URL_ADMIN);
         }
-        if (roles.contains(roleUser)) {
-            httpServletResponse.sendRedirect("/user");
+        if (roles.contains(ROLE_USER)) {
+            httpServletResponse.sendRedirect(URL_USER);
         }
     }
 }

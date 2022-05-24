@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import web.model.User;
 import web.service.UserService;
-import java.util.Locale;
+import static web.config.MyConstantString.*;
 
 @Controller
 public class UserController {
@@ -18,8 +18,7 @@ public class UserController {
     @GetMapping("/user")
     public String showUser(Model model) {
         User user = userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("role", user.getRoles().stream().findFirst().get().getName().toLowerCase(Locale.ROOT).replace("role_", ""));
-        model.addAttribute("user", user);
-        return "user";
+        model.addAttribute(USER, user);
+        return USER;
     }
 }

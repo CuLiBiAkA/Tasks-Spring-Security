@@ -16,12 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static web.config.MyConstantString.*;
 
 @Setter
 @Getter
@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "user_table")
 public class User implements UserDetails {
-
-    @Transient
-    private static String roleNull = "отвалилась ебеаня база или роль проебалась, должен кинуть эксепшн, но кину эту строку и я хз кто ты по жизни";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,10 +90,10 @@ public class User implements UserDetails {
 
     public String getUserRoles() {
         if (roles != null) {
-            return  roles.stream().map(p->p.getName().toLowerCase(Locale.ROOT).replace("role_", "")).collect(Collectors.joining(", "));
+            return  roles.stream().map(p->p.getName().toLowerCase(Locale.ROOT).replace(ROLE_, "")).collect(Collectors.joining(", "));
         }
         else {
-            return roleNull;
+            return ROLE_NULL;
         }
     }
 

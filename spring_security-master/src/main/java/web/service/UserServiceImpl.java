@@ -1,6 +1,7 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,17 +15,16 @@ import web.model.User;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import static web.config.MyConstantString.*;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    final static String roleAdmin = "ROLE_ADMIN";
-    final static String roleUser = "ROLE_USER";
-
     @Autowired
     private UserDao userDao;
 
+    @Lazy
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
     public void setUserRole(User user, boolean flagSetRoleUser) {
         Set<Role> roleSet = new HashSet<>();
         if (flagSetRoleUser) {
-            roleSet.add(new Role(1L, roleAdmin));
+            roleSet.add(new Role(1L, ROLE_ADMIN));
         } else {
-            roleSet.add(new Role(2L, roleUser));
+            roleSet.add(new Role(2L, ROLE_USER));
         }
         user.setRoles(roleSet);
     }

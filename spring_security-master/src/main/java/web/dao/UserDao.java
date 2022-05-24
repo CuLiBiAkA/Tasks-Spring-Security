@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import static web.config.MyConstantString.*;
 
 @Repository
 public interface UserDao extends CrudRepository<User, Long> {
@@ -14,8 +15,8 @@ public interface UserDao extends CrudRepository<User, Long> {
     User findUserByName(String username);
 
     @Modifying
-    @Query(value = "insert into role_table (id, name) values (?, ?)", nativeQuery = true)
-    void saveRole(@Param("id") Long id, @Param("name") String name);
+    @Query(value = SQL_INSERT_INTO_TABLE_ROLES, nativeQuery = true)
+    void saveRole(@Param(ID) Long id, @Param(NAME) String name);
 
     void removeUsersById(Long id);
 }
