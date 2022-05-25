@@ -1,6 +1,7 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,8 @@ import static web.config.MyConstantString.USERS;
 @Controller
 public class AdminController {
 
+    public Boolean flagSetRoleUser = false;
+
     @Autowired
     private UserService userService;
 
@@ -51,7 +54,7 @@ public class AdminController {
         return REDIRECT + URL_ADMIN;
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
         return REDIRECT + URL_ADMIN;
@@ -59,6 +62,8 @@ public class AdminController {
 
     @GetMapping()
     public String getListUsers(Model model) {
+        User user = userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute(USER,user);
         model.addAttribute(USERS, userService.getListUsers());
         return ADMIN_LOW;
     }
@@ -70,7 +75,7 @@ public class AdminController {
         return GET_USER;
     }
 
-    @GetMapping("/{id}/editUser")
+    @PostMapping("/{id}/editUser")
     public String editUser(Model model, @PathVariable("id") Long id) {
         User user = userService.getUserById(id);
         boolean flagSetRoleUser = ADMIN_LOW.equals(user.getUserRoles());
