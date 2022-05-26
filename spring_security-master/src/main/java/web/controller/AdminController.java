@@ -28,8 +28,6 @@ import static web.config.MyConstantString.USERS;
 @Controller
 public class AdminController {
 
-    public Boolean flagSetRoleUser = false;
-
     @Autowired
     private UserService userService;
 
