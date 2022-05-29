@@ -14,7 +14,7 @@ public class RestUserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user1")
+    @GetMapping("/api/user")
     public UserDto showUser() {
         return UserMapper.INSTANCE.toDTO(userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName()));
     }

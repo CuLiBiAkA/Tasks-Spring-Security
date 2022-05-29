@@ -15,30 +15,30 @@ import web.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("/admin1")
+@RequestMapping("/api/")
 @RestController
 public class RestAdminController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("users")
     List<UserDto> all() {
         return userService.getListUsers().stream().map(UserMapper.INSTANCE::toDTO).collect(Collectors.toList());
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("users")
     void createUser(@RequestBody UserDto newUser) {
         newUser.setId(null);
         userService.saveUser(UserMapper.INSTANCE.toEntity(newUser));
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("users/{id}")
     UserDto getUserById(@PathVariable Long id) {
         return UserMapper.INSTANCE.toDTO(userService.getUserById(id));
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("users/{id}")
     void updateUserById(@RequestBody UserDto newEmployee, @PathVariable Long id) {
         UserDto userDto = UserMapper.INSTANCE.toDTO(userService.getUserById(id));
         userDto.setName(newEmployee.getName());
@@ -46,7 +46,7 @@ public class RestAdminController {
         userService.saveUser(UserMapper.INSTANCE.toEntity(userDto));
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("users/{id}")
     void deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
     }
