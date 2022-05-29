@@ -1,7 +1,6 @@
 package web.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import web.dto.UserDto;
 import web.model.User;
@@ -13,5 +12,5 @@ public interface UserMapper {
 
     User toEntity(UserDto dto);
 
-    UserDto toDTO(User entity);
+    UserDto toDto(User entity);
 }

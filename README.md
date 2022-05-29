@@ -13,20 +13,20 @@ Legacy приложение может общаться с миром живых
 
 Пример ответа на GEN запрос по адресу: http://localhost:8080/admin1/users/1 (1-это id первого юзера)
 
-```
+```json
 {
-"id": 1,
-"name": "PIDOR",
-"password": "$2a$12$WD5mWochtngLH/Sw5ORj3u5zs8EtHf4NwD3wLnPHg8vSQkE7nZTpa",
-"penisSize": 9,
-"drove": "CMOSHA",
-"roles": [
-{
-"id": 1,
-"name": "ROLE_ADMIN",
-"authority": "ROLE_ADMIN"
-}
-]
+  "id": 1,
+  "name": "PIDOR",
+  "password": "$2a$12$WD5mWochtngLH/Sw5ORj3u5zs8EtHf4NwD3wLnPHg8vSQkE7nZTpa",
+  "penisSize": 9,
+  "drove": "CMOSHA",
+  "roles": [
+    {
+      "id": 1,
+      "name": "ROLE_ADMIN",
+      "authority": "ROLE_ADMIN"
+    }
+  ]
 }
 ```
 ![](spring_security-master/src/main/resources/static/228.gif)

@@ -16,6 +16,6 @@ public class RestUserController {
 
     @GetMapping("/api/user")
     public UserDto showUser() {
-        return UserMapper.INSTANCE.toDTO(userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName()));
+        return UserMapper.INSTANCE.toDto(userService.findUserByName(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 }
