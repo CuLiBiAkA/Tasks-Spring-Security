@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
         userDao.saveRole(role.getId(), role.getName());
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findUserByName(username);
